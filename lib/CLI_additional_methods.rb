@@ -7,3 +7,12 @@ def filter_by_borough
   incidents = Incidenttype_Borough.where(borough: b)
   incidents.each{|i| puts "#{Incidenttype.where(id: i.incidenttype_id).first.name} - #{i.open_date}"}
 end
+
+def filter_by_date_range
+  puts "from: mm/yyyy"
+  from_date = gets.chomp
+  puts "to: mm/yyyy"
+  from_date = gets.chomp
+
+  
+end

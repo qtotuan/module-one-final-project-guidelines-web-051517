@@ -1,4 +1,5 @@
 require_relative 'CLI_additional_methods'
+require "pry"
 
 class CLI
 
