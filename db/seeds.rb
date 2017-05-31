@@ -4,12 +4,17 @@ require_relative '../config/environment'
 require 'date'
 #
 csv_array = CSV.read("incidents.csv")
-# csv_array.each do |row_array|
+
+# csv_array.each_with_index do |row_array, index|
+#   next if index == 0 #ignore first line
 #   Borough.create(name: row_array[2])
 # end
-
-# csv_array.each do |row_array|
-#   Incidenttype.create(name: row_array[0])
+#
+# csv_array.each_with_index do |row_array, index|
+#   next if index == 0 #ignore first line
+#   name = row_array[0].split("-")[0]
+#   Incidenttype.create(name: name)
+#   # binding.pry
 # end
 
 def parse_date(string)
@@ -23,7 +28,7 @@ end
 csv_array.each_with_index do |row_array, index|
   next if index == 0 # ignore headers
   borough = Borough.find_by_name(row_array[2])
-  incidenttype = Incidenttype.find_by_name(row_array[0])
+  incidenttype = Incidenttype.find_by_name(row_array[0].split("-")[0])
   # binding.pry
   Incidenttype_Borough.create(borough: borough, incidenttype: incidenttype, open_date: parse_date(row_array[3]), close_date: parse_date(row_array[4]))
 end
