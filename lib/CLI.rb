@@ -32,7 +32,7 @@ class CLI
     puts "MENU"
     puts "[1] Display incidents by borough"
     puts "[2] Display by incident type"
-    puts "[3] Display by year"
+    puts "[3] Display by year and quarter"
     puts ""
     puts "Type 'exit' to quit the program"
   end
