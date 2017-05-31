@@ -14,21 +14,21 @@ dictionary = {
   "Bronx" => ["bronx", "Bronx (NYCHA)", "BrONX"]
 }
 
-csv_array.each_with_index do |row_array, index|
-  next if index == 0 #ignore first line
-  name = row_array[2]
-  dictionary.each do | borough_name, name_array |
-    name = borough_name if name_array.include?(row_array[2])
-  end
-  # binding.pry
-  Borough.create(name: name)
-end
-
-csv_array.each_with_index do |row_array, index|
-  next if index == 0 #ignore first line
-  name = row_array[0].split("-")[0]
-  # binding.pry
-end
+# csv_array.each_with_index do |row_array, index|
+#   next if index == 0 #ignore first line
+#   name = row_array[2]
+#   dictionary.each do | borough_name, name_array |
+#     name = borough_name if name_array.include?(row_array[2])
+#   end
+#   # binding.pry
+#   Borough.create(name: name)
+# end
+#
+# csv_array.each_with_index do |row_array, index|
+#   next if index == 0 #ignore first line
+#   name = row_array[0].split("-")[0]
+#   # binding.pry
+# end
 
 def parse_date(string)
   return nil if string == nil || string.empty?
@@ -40,7 +40,11 @@ end
 
 csv_array.each_with_index do |row_array, index|
   next if index == 0 # ignore headers
-  borough = Borough.find_by_name(row_array[2])
+  borough = row_array[2]
+  dictionary.each do | borough_name, name_array |
+    borough = borough_name if name_array.include?(row_array[2])
+  end
+  borough = Borough.find_by_name(borough)
   incidenttype = Incidenttype.find_by_name(row_array[0].split("-")[0])
   # binding.pry
   Incidenttype_Borough.create(borough: borough, incidenttype: incidenttype, open_date: parse_date(row_array[3]), close_date: parse_date(row_array[4]))
