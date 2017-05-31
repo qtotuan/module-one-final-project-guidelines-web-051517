@@ -18,7 +18,7 @@ class CLI
       when "2"
         display_by_type
       when "3"
-        filter_by_borough(input)
+        filter_by_borough
       when "4"
         display_by_year_month
       when "exit"
