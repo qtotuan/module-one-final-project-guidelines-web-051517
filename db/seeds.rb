@@ -13,7 +13,6 @@ csv_array = CSV.read("incidents.csv")
 # csv_array.each_with_index do |row_array, index|
 #   next if index == 0 #ignore first line
 #   name = row_array[0].split("-")[0]
-#   Incidenttype.create(name: name)
 #   # binding.pry
 # end
 
