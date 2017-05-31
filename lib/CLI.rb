@@ -1,3 +1,5 @@
+require_relative 'CLI_additional_methods'
+
 class CLI
 
   def start
@@ -15,6 +17,10 @@ class CLI
         display_by_borough
       when "2"
         display_by_type
+      when "3"
+        filter_by_borough(input)
+      when "4"
+        display_by_year_month
       when "exit"
         exit(0)
       end
