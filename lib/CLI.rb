@@ -18,9 +18,9 @@ class CLI
       when "2"
         display_by_type
       when "3"
-        filter_by_borough(input)
+        display_by_year_and_quarter
       when "4"
-        display_by_year_month
+        filter_by_borough(input)
       when "exit"
         exit(0)
       end
@@ -32,6 +32,7 @@ class CLI
     puts "MENU"
     puts "[1] Display incidents by borough"
     puts "[2] Display by incident type"
+    puts "[3] Display by year"
     puts ""
     puts "Type 'exit' to quit the program"
   end
@@ -54,12 +55,24 @@ class CLI
     end
   end
 
-  # def display_by_year_month
-  #   (2012..2017).to_a.each do |year|
-  #     # binding.pry
-  #     count = Incidenttype_Borough.all_dates.where("open_date > 2012 AND open_date < 2015").count
-  #     puts "#{year} (#{count})"
-  #   end
-  # end
+  def display_by_year_and_quarter
+    (2011..2017).to_a.each do |year|
+      entries_with_year = Incidenttype_Borough.convert_date_to_years.flatten
+      count_per_year = entries_with_year.count { |entry| entry.open_date == year}
+
+      entries_with_days = Incidenttype_Borough.convert_date_to_days.flatten
+      count_q1 = entries_with_days.count { |entry| entry.open_date >= Date.new(year, 1, 1) && entry.open_date <= Date.new(year, 3, 31)}
+      count_q2 = entries_with_days.count { |entry| entry.open_date >= Date.new(year, 4, 1) && entry.open_date <= Date.new(year, 6, 30)}
+      count_q3 = entries_with_days.count { |entry| entry.open_date >= Date.new(year, 7, 1) && entry.open_date <= Date.new(year, 9, 30)}
+      count_q4 = entries_with_days.count { |entry| entry.open_date >= Date.new(year, 10, 1) && entry.open_date <= Date.new(year, 12, 31)}
+
+
+      puts "#{year}:".colorize(:yellow) + " #{count_per_year} incidents"
+      puts "\tQ1: #{count_q1} incidents"
+      puts "\tQ2: #{count_q2} incidents"
+      puts "\tQ3: #{count_q3} incidents"
+      puts "\tQ4: #{count_q4} incidents"
+    end
+  end
 
 end
