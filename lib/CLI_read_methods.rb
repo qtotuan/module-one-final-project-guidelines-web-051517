@@ -1,4 +1,5 @@
 require "pry"
+require_relative 'CLI.rb'
 
 def filter_by_borough
   puts "Which borough would you like to view?"
@@ -19,18 +20,19 @@ end
 # end
 
 def display_by_borough
+  puts "These are the incidents recorded by borough:"
   Borough.all.each do |borough|
     puts borough.name.colorize(:red)
     Incidenttype.all.each do |type|
       count = Incidenttype_Borough.where(incidenttype: type, borough: borough).count
       # binding.pry
-      puts "#{type.name}: (#{count})".colorize(:green)
+      puts type.name.colorize(:magenta) + " (#{count})"
     end
   end
 end
 
 def display_by_type
-  puts "These are the types of incidents recorded:"
+  puts "These are the incident types recorded:"
   Incidenttype.all.each do |type|
     count = Incidenttype_Borough.where(incidenttype: type).count
     puts "#{type.name.colorize(:red)} (#{count})"
