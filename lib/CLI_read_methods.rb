@@ -18,8 +18,6 @@ end
 #
 # end
 
-
-
 def display_by_borough
   Borough.all.each do |borough|
     puts borough.name.colorize(:red)
@@ -32,6 +30,7 @@ def display_by_borough
 end
 
 def display_by_type
+  puts "These are the types of incidents recorded:"
   Incidenttype.all.each do |type|
     count = Incidenttype_Borough.where(incidenttype: type).count
     puts "#{type.name.colorize(:red)} (#{count})"
