@@ -22,6 +22,8 @@ class CLI
         display_by_year_and_quarter
       when "4"
         filter_by_borough
+      when "5"
+        filter_by_date_range
       when "return"
         run_main_menu
       when "menu"

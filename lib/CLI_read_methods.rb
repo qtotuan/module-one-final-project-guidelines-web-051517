@@ -29,14 +29,43 @@ def display_borough_names
   end
 end
 
-# def filter_by_date_range
-#   puts "from: mm/yyyy"
-#   from_date = gets.chomp
-#   puts "to: mm/yyyy"
-#   from_date = gets.chomp
-#
-#
-# end
+def filter_by_date_range
+  loop do
+    puts "from: mm/yyyy"
+    from = gets.chomp
+    exit_return_menu(from)
+    next if from == "menu"
+    if from == "menu"
+      filter_by_date_range
+    end
+
+    puts "to: mm/yyyy"
+    to = gets.chomp
+    exit_return_menu(to)
+    next if to == "menu"
+    invalid = to.split("/")[0].to_i == 0 || from.split("/")[0].to_i == 0 || from.split("/")[1].to_i == 0
+
+    if invalid
+      puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
+      filter_by_date_range
+    end
+
+    from_date = Date.new(from.split("/")[1].to_i, from.split("/")[0].to_i, 1)
+    to_date = Date.new(to.split("/")[1].to_i, to.split("/")[0].to_i, -1)
+
+    incidents = Incidenttype_Borough.group(:open_date).convert_date_to_days.flatten
+
+    if from_date > to_date
+      puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
+    else
+      incidents.each do |incident|
+        if incident.open_date >= from_date && incident.open_date <= to_date
+          puts "#{incident.open_date} - #{incident.incidenttype.name} - #{incident.borough.name}"
+        end
+      end
+    end
+  end
+end
 
 def display_by_borough
   puts "\nThese are the incidents recorded by borough:\n"
