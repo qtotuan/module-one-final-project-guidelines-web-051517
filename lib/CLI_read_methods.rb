@@ -2,23 +2,30 @@ require "pry"
 require_relative 'CLI.rb'
 
 def filter_by_borough
-  puts "Which borough would you like to view?".colorize(:light_blue)
-  borough = gets.chomp
-
-  if Borough.find_by_name(borough)
-    b = Borough.find_by_name(borough)
-    incidents = Incidenttype_Borough.where(borough: b)
-    # binding.pry
-    incidents.each {|i| puts "#{i.incidenttype.name} - #{i.open_date}"}
-  elsif borough == "exit" || borough == "return" || borough == "menu"
+  loop do
+    puts "Which borough would you like to view?\n".colorize(:light_blue)
+    display_borough_names
+    borough = gets.chomp
     exit_return_menu(borough)
-  else
-    puts ""
-    puts "Sorry, that's not a valid entry, please select a borough from the listed boroughs.".colorize(:red)
-    puts ""
-    filter_by_borough
-  end
 
+    if Borough.find_by_name(borough)
+      b = Borough.find_by_name(borough)
+      incidents = Incidenttype_Borough.where(borough: b)
+      # binding.pry
+      incidents.each {|i| puts "#{i.incidenttype.name} - #{i.open_date}"}
+      break
+    elsif borough == "menu"
+      next
+    else
+      puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
+    end
+  end
+end
+
+def display_borough_names
+  Borough.all.each do |borough|
+    puts "#{borough.name}".colorize(:green)
+  end
 end
 
 # def filter_by_date_range
