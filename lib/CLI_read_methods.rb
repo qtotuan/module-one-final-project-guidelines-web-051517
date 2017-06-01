@@ -20,22 +20,22 @@ end
 # end
 
 def display_by_borough
-  puts "These are the incidents recorded by borough:"
+  puts "\nThese are the incidents recorded by borough:\n"
   Borough.all.each do |borough|
-    puts borough.name.colorize(:red)
+    puts "\n#{borough.name}".colorize(:yellow)
     Incidenttype.all.each do |type|
       count = Incidenttype_Borough.where(incidenttype: type, borough: borough).count
       # binding.pry
-      puts type.name.colorize(:magenta) + " (#{count})"
+      puts "\t#{type.name} (#{count})"
     end
   end
 end
 
 def display_by_type
-  puts "These are the incident types recorded:"
+  puts "\nThese are the incident types recorded and the total number (2011 - present):\n"
   Incidenttype.all.each do |type|
     count = Incidenttype_Borough.where(incidenttype: type).count
-    puts "#{type.name.colorize(:red)} (#{count})"
+    puts "#{type.name} (#{count})"
   end
 end
 
