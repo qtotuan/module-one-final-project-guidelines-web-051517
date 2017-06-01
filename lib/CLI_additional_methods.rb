@@ -9,11 +9,11 @@ def filter_by_borough
   incidents.each {|i| puts "#{i.incidenttype.name} - #{i.open_date}"}
 end
 
-def filter_by_date_range
-  puts "from: mm/yyyy"
-  from_date = gets.chomp
-  puts "to: mm/yyyy"
-  from_date = gets.chomp
-
-  
-end
+# def filter_by_date_range
+#   puts "from: mm/yyyy"
+#   from_date = gets.chomp
+#   puts "to: mm/yyyy"
+#   from_date = gets.chomp
+#
+#
+# end
