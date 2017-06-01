@@ -2,7 +2,7 @@ require "pry"
 require_relative 'CLI.rb'
 
 def filter_by_borough
-  puts "Which borough would you like to view?"
+  puts "Which borough would you like to view?".colorize(:light_blue)
   borough = gets.chomp
 
   if Borough.find_by_name(borough)
@@ -10,10 +10,13 @@ def filter_by_borough
     incidents = Incidenttype_Borough.where(borough: b)
     # binding.pry
     incidents.each {|i| puts "#{i.incidenttype.name} - #{i.open_date}"}
-    puts "Sorry, that's not a valid entry, please type "
   elsif borough == "exit" || borough == "return" || borough == "menu"
-    
+    exit_return_menu(borough)
   else
+    puts ""
+    puts "Sorry, that's not a valid entry, please select a borough from the listed boroughs.".colorize(:red)
+    puts ""
+    filter_by_borough
   end
 
 end
