@@ -25,6 +25,24 @@ module Delete
       end
     end
 
+    if incidents.length > 15
+      loop do
+        puts "Do you want to filter your results by date range? (y/n)\n".colorize(:light_blue)
+        input = gets.chomp.downcase
+        exit_return_menu(input)
+        next if input == "menu"
+
+        if input == "y"
+          filter_by_date_range
+          break
+        elsif input == "n"
+          break
+        else
+          puts "\nSorry, that's not a valid entry, please enter 'y' or 'n'.\n".colorize(:red)
+        end
+      end
+    end
+
     loop do
       puts "Please type the ID\# to delete entry\n".colorize(:light_blue)
       input = gets.chomp

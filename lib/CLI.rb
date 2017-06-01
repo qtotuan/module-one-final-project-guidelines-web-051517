@@ -1,13 +1,16 @@
 require_relative 'CLI_read_methods'
 require_relative 'CLI_delete_methods'
 require "pry"
+require 'artii'
 
 class CLI
 
   include Delete
 
   def start
-    puts "\nWelcome to NYC Incident Database".upcase.colorize(:yellow)
+    a = Artii::Base.new :font => 'slant'
+    puts a.asciify("NYC").colorize(:yellow)
+    puts "Welcome to NYC Incident Database".upcase.colorize(:yellow)
     run_main_menu
   end
 

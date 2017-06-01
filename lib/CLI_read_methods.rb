@@ -26,7 +26,7 @@ end
 
 def display_borough_names
   Borough.all.each do |borough|
-    puts "#{borough.name}".colorize(:green)
+    puts "\t#{borough.name}"
   end
 end
 
