@@ -1,7 +1,10 @@
 require_relative 'CLI_read_methods'
+require_relative 'CLI_delete_methods'
 require "pry"
 
 class CLI
+
+  include Delete
 
   def start
     puts "\nWelcome to NYC Incident Database".upcase.colorize(:yellow)
@@ -22,6 +25,8 @@ class CLI
         display_by_year_and_quarter
       when "4"
         filter_by_borough
+      when "5"
+        delete_entry
       when "return"
         run_main_menu
       when "menu"
@@ -42,6 +47,7 @@ class CLI
     puts "[2] Display by incident type"
     puts "[3] Display by year and quarter"
     puts "[4] Display for selected borough"
+    puts "[5] Delete an entry"
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"

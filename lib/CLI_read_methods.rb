@@ -1,5 +1,6 @@
+require_relative 'CLI'
+require_relative 'CLI_delete_methods'
 require "pry"
-require_relative 'CLI.rb'
 
 def filter_by_borough
   loop do
@@ -76,4 +77,9 @@ def display_by_year_and_quarter
     puts "\tQ3: #{count_q3} incidents"
     puts "\tQ4: #{count_q4} incidents"
   end
+end
+
+def find_borough_by_name(input)
+  input = input.split(" ").map{|char| char.capitalize}.join(" ")
+  Borough.find_by_name(borough)
 end
