@@ -7,6 +7,9 @@ def filter_by_borough
     display_borough_names
     borough = gets.chomp
     exit_return_menu(borough)
+    next if borough == "menu"
+
+    borough = borough.split(" ").map{|char| char.capitalize}.join(" ")
 
     if Borough.find_by_name(borough)
       b = Borough.find_by_name(borough)
@@ -14,8 +17,6 @@ def filter_by_borough
       # binding.pry
       incidents.each {|i| puts "#{i.incidenttype.name} - #{i.open_date}"}
       break
-    elsif borough == "menu"
-      next
     else
       puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
     end
