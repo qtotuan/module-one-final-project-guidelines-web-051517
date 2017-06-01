@@ -14,9 +14,9 @@ def filter_by_borough
 
     if Borough.find_by_name(borough)
       b = Borough.find_by_name(borough)
-      incidents = Incidenttype_Borough.where(borough: b).group(:open_date).convert_date_to_days.flatten
+      incidents = Incidenttype_Borough.where(borough: b).order(:open_date).convert_date_to_days.flatten
       # binding.pry
-      incidents.each {|i| puts "#{i.open_date} - #{i.incidenttype.name}"}
+      incidents.each {|i| puts "#{i.open_date} - #{i.incidenttype.name}: #{i.description}"}
       break
     else
       puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
@@ -60,19 +60,47 @@ def filter_by_date_range
     from_date = Date.new(from.split("/")[1].to_i, from.split("/")[0].to_i, 1)
     to_date = Date.new(to.split("/")[1].to_i, to.split("/")[0].to_i, -1)
 
-    incidents = Incidenttype_Borough.group(:open_date).convert_date_to_days.flatten
+    incidents = Incidenttype_Borough.order(:open_date).convert_date_to_days.flatten
 
     if from_date > to_date
       puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
     else
       incidents.each do |incident|
         if incident.open_date >= from_date && incident.open_date <= to_date
-          puts "#{incident.open_date} - #{incident.incidenttype.name} - #{incident.borough.name}"
+          puts "#{incident.open_date} - #{incident.borough.name} - #{incident.incidenttype.name}: #{incident.description}"
         end
       end
       break
     end
   end
+end
+
+def filter_incidenttype
+  loop do
+    puts "\nWhich type of incident would you like to view?\n".colorize(:light_blue)
+    display_incident_types
+
+    i = gets.chomp
+    exit_return_menu(i)
+    next if i == "menu"
+
+    i = i.split(" ").map{|w| w.capitalize}.join(" ")
+
+
+    if Incidenttype.find_by_name(i)
+      inc = Incidenttype.find_by_name(i)
+      incidents = Incidenttype_Borough.where(incidenttype: inc).order(:open_date).convert_date_to_days.flatten
+      puts "#{inc}".colorize(:green)
+      incidents.each {|i| puts "#{i.open_date} - #{i.description} - #{i.borough.name}"}
+      break
+    else
+      puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
+    end
+  end
+end
+
+def display_incident_types
+  Incidenttype.all.each{|i| puts "\t#{i.name}"}
 end
 
 def check_validity(input)
