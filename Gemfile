@@ -7,3 +7,5 @@ gem "pry"
 gem "require_all"
 gem "rake"
 gem 'colorize'
+gem 'byebug'
+gem 'artii'

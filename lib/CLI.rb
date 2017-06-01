@@ -1,10 +1,16 @@
 require_relative 'CLI_read_methods'
+require_relative 'CLI_delete_methods'
 require "pry"
+require 'artii'
 
 class CLI
 
+  include Delete
+
   def start
-    puts "\nWelcome to NYC Incident Database".upcase.colorize(:yellow)
+    a = Artii::Base.new :font => 'slant'
+    puts a.asciify("NYC").colorize(:yellow)
+    puts "Welcome to NYC Incident Database".upcase.colorize(:yellow)
     run_main_menu
   end
 
@@ -24,6 +30,8 @@ class CLI
         filter_by_borough
       when "5"
         filter_by_date_range
+      when "6"
+        delete_entry
       when "return"
         run_main_menu
       when "menu"
@@ -44,6 +52,8 @@ class CLI
     puts "[2] Display by incident type"
     puts "[3] Display by year and quarter"
     puts "[4] Display for selected borough"
+    puts "[5] Display incidents for a range of dates"
+    puts "[6] Delete an entry"
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"

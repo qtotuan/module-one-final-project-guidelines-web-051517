@@ -13,6 +13,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.1.4)
+    artii (2.1.2)
+    byebug (9.0.6)
     coderay (1.1.1)
     colorize (0.8.1)
     concurrent-ruby (1.0.5)
@@ -46,6 +48,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  artii
+  byebug
   colorize
   pry
   rake

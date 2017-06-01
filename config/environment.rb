@@ -2,6 +2,7 @@ require 'bundler'
 Bundler.require
 
 require 'pry'
+require 'byebug'
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.db')
 old_logger = ActiveRecord::Base.logger
