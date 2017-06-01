@@ -10,7 +10,7 @@ class CLI
 
   def run_main_menu
     loop do
-      puts "\nPlease chose from the menu:".colorize(:light_blue)
+      puts "\nWhat would you like to do?".colorize(:light_blue)
       prompt_menu
       input = gets.chomp
       case input
