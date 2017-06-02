@@ -12,8 +12,8 @@ class CLI
 
   def start
     a = Artii::Base.new :font => 'slant'
-    puts a.asciify("NYC").colorize(:yellow)
-    puts "Welcome to NYC Incident Database".upcase.colorize(:yellow)
+    puts a.asciify("NYC").colorize(:red)
+    puts "Welcome to NYC Incident Database".upcase.colorize(:red)
     run_main_menu
   end
 

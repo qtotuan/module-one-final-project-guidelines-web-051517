@@ -93,7 +93,9 @@ module Read
       if Incidenttype.find_by_name(i)
         inc = Incidenttype.find_by_name(i)
         incidents = Incidenttype_Borough.where(incidenttype: inc).order(:open_date).convert_date_to_days.flatten
-        puts "#{inc}".colorize(:green)
+        puts ""
+        puts "#{inc.name}".colorize(:green)
+        puts "-----------------------------"
         incidents.each {|i| puts "#{i.open_date} - #{i.description} - #{i.borough.name}"}
         break
       else
