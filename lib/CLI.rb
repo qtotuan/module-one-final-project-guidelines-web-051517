@@ -36,9 +36,11 @@ class CLI
       when "6"
         filter_incidenttype
       when "7"
-        delete_entry
+        long_filter
       when "8"
         create_new_entry
+      when "9"
+        delete_entry
       when "return"
         run_main_menu
       when "menu"
@@ -61,8 +63,10 @@ class CLI
     puts "[4] Display for selected borough"
     puts "[5] Display incidents for a range of dates"
     puts "[6] Display incidents for a specific type of incident"
-    puts "[7] Delete an entry"
+    puts "[7] Filter by borough and date range"
     puts "[8] Create an entry"
+    puts "[9] Delete an entry"
+
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"
