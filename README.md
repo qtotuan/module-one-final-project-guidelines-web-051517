@@ -15,6 +15,9 @@ To run the application:
 ruby bin/run.rb
 
 
+Screencast Demo:
+https://www.youtube.com/watch?v=sSkf6KIIVbw&feature=youtu.be&hd=1
+
 
 
 
