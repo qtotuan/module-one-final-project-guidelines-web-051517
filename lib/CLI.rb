@@ -6,6 +6,7 @@ require 'artii'
 class CLI
 
   include Delete
+  include Read
 
   def start
     a = Artii::Base.new :font => 'slant'
