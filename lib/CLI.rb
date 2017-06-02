@@ -2,11 +2,13 @@ require_relative 'CLI_read_methods'
 require_relative 'CLI_delete_methods'
 require "pry"
 require 'artii'
+require 'date'
 
 class CLI
 
   include Delete
   include Read
+  include Create
 
   def start
     a = Artii::Base.new :font => 'slant'
@@ -36,6 +38,8 @@ class CLI
       when "7"
         long_filter
       when "8"
+        create_new_entry
+      when "9"
         delete_entry
       when "return"
         run_main_menu
@@ -60,7 +64,9 @@ class CLI
     puts "[5] Display incidents for a range of dates"
     puts "[6] Display incidents for a specific type of incident"
     puts "[7] Filter by borough and date range"
-    puts "[8] Delete an entry"
+    puts "[8] Create an entry"
+    puts "[9] Delete an entry"
+
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"

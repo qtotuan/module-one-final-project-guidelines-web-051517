@@ -17,8 +17,7 @@ module Read
       if Borough.find_by_name(borough)
         b = Borough.find_by_name(borough)
         incidents = Incidenttype_Borough.where(borough: b).group(:open_date).convert_date_to_days.flatten
-        # binding.pry
-        incidents.each {|i| puts "#{i.open_date} - #{i.incidenttype.name} - #{i.description}"}
+        display_results(incidents)
         break
       else
         puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
@@ -120,7 +119,6 @@ module Read
       puts "\n#{borough.name}".colorize(:yellow)
       Incidenttype.all.each do |type|
         count = Incidenttype_Borough.where(incidenttype: type, borough: borough).count
-        # binding.pry
         puts "\t#{type.name} (#{count})"
       end
     end
