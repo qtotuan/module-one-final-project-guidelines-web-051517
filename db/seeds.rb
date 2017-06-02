@@ -23,7 +23,7 @@ dictionary = {
 #   # binding.pry
 #   Borough.create(name: name)
 # end
-#
+
 # csv_array.each_with_index do |row_array, index|
 #   next if index == 0 #ignore first line
 #   name = row_array[0].split("-")[0]
@@ -46,6 +46,10 @@ csv_array.each_with_index do |row_array, index|
   end
   borough = Borough.find_by_name(borough)
   incidenttype = Incidenttype.find_by_name(row_array[0].split("-")[0])
+  incidenttype_description = nil
+  if row_array[0].split("-").length > 1
+    incidenttype_description = row_array[0].split("-")[1]
+  end
   # binding.pry
-  Incidenttype_Borough.create(borough: borough, incidenttype: incidenttype, open_date: parse_date(row_array[3]), close_date: parse_date(row_array[4]))
+  Incidenttype_Borough.create(borough: borough, incidenttype: incidenttype, open_date: parse_date(row_array[3]), close_date: parse_date(row_array[4]), description: incidenttype_description)
 end

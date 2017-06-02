@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20170530202215) do
     t.integer  "incidenttype_id"
     t.datetime "open_date"
     t.datetime "close_date"
+    t.string   "description"
     t.index ["borough_id"], name: "index_incidenttype_boroughs_on_borough_id"
     t.index ["incidenttype_id"], name: "index_incidenttype_boroughs_on_incidenttype_id"
   end

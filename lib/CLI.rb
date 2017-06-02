@@ -32,6 +32,8 @@ class CLI
       when "5"
         filter_by_date_range
       when "6"
+        filter_incidenttype
+      when "7"
         delete_entry
       when "return"
         run_main_menu
@@ -54,7 +56,8 @@ class CLI
     puts "[3] Display by year and quarter"
     puts "[4] Display for selected borough"
     puts "[5] Display incidents for a range of dates"
-    puts "[6] Delete an entry"
+    puts "[6] Display incidents for a specific type of incident"
+    puts "[7] Delete an entry"
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"
