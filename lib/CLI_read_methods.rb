@@ -22,9 +22,9 @@ module Read
         break
       else
         puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
-      end
-    end
-  end
+      end # end if
+    end # end loop
+  end # end method
 
   def display_borough_names
     Borough.all.each do |borough|
@@ -54,6 +54,7 @@ module Read
         to = gets.chomp
         exit_return_menu(to)
         next if to == "menu"
+        # byebug
         if !check_validity(to)
           break
         end
@@ -63,18 +64,19 @@ module Read
       to_date = Date.new(to.split("/")[1].to_i, to.split("/")[0].to_i, -1)
 
 
-    incidents = Incidenttype_Borough.order(:open_date).convert_date_to_days.flatten
+      incidents = Incidenttype_Borough.order(:open_date).convert_date_to_days.flatten
 
-    if from_date > to_date
-      puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
-    else
-      incidents.each do |incident|
-        if incident.open_date >= from_date && incident.open_date <= to_date
-          puts "#{incident.open_date} - #{incident.borough.name} - #{incident.incidenttype.name}: #{incident.description}"
-        end
+      if from_date > to_date
+        puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
+      else
+        incidents.each do |incident|
+          if incident.open_date >= from_date && incident.open_date <= to_date
+            puts "#{incident.open_date} - #{incident.borough.name} - #{incident.incidenttype.name}: #{incident.description}"
+          end
+        end # end each
         break
-      end
-    end
+      end # end if
+    end # end loop
   end
 
   def filter_incidenttype
@@ -157,5 +159,4 @@ module Read
     Borough.find_by_name(borough)
   end
 
-end
 end

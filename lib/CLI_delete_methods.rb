@@ -20,7 +20,8 @@ module Delete
       if Borough.find_by_name(borough)
         borough = Borough.find_by_name(borough)
         incidents = Incidenttype_Borough.where(borough: borough)
-        incidents.each_with_index {|entry, index| puts "\##{index + 1}: #{entry.incidenttype.name} - #{entry.open_date}"}
+        display_results(incidents)
+        # incidents.each_with_index {|entry, index| puts "\##{index + 1}: #{entry.incidenttype.name} - #{entry.open_date}"}
         break
       else
         puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
@@ -86,7 +87,6 @@ module Delete
       exit_return_menu(input)
       next if input == "menu"
 
-      # byebug
       if valid?(input)
         date = input
         break
@@ -106,7 +106,7 @@ module Delete
 
   def display_results(arr)
     arr.each_with_index do |row, index|
-      puts "\##{index + 1}: #{row.open_date} - #{row.incidenttype.name} - #{row.borough.name} - #{row.description}"
+      puts "\##{index + 1}: #{row.open_date.to_date} - #{row.incidenttype.name} - #{row.borough.name} - #{row.description}"
     end
   end
 
