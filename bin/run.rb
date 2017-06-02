@@ -8,3 +8,4 @@ CLI.new.start
 # CLI.new.display_by_year_and_quarter
 # Incidenttype_Borough.all_dates
 # CLI.new.delete_entry
+# CLI.new.create_new_entry
