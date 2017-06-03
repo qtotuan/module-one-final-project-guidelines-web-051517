@@ -9,6 +9,8 @@ class CLI
   include Delete
   include Read
   include Create
+  include Update
+  include Helpers
 
   def start
     a = Artii::Base.new :font => 'slant'
@@ -39,6 +41,10 @@ class CLI
         delete_entry
       when "8"
         create_new_entry
+      when "9"
+        update_entry
+      when "10"
+        delete_entry
       when "return"
         run_main_menu
       when "menu"
@@ -63,6 +69,8 @@ class CLI
     puts "[6] Display incidents for a specific type of incident"
     puts "[7] Delete an entry"
     puts "[8] Create an entry"
+    puts "[9] Update an entry"
+    puts "[10] Delete an entry"
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"
