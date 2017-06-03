@@ -2,132 +2,43 @@ require_relative 'CLI'
 require_relative 'CLI_delete_methods'
 require "pry"
 
-
 module Read
-  def filter_by_borough
-    loop do
-      puts "Which borough would you like to view?\n".colorize(:light_blue)
-      display_borough_names
-      borough = gets.chomp
-      exit_return_menu(borough)
-      next if borough == "menu"
 
-      borough = borough.split(" ").map{|char| char.capitalize}.join(" ")
-
-      if Borough.find_by_name(borough)
-        b = Borough.find_by_name(borough)
-        incidents = Incidenttype_Borough.where(borough: b).group(:open_date).convert_date_to_days.flatten
-        # binding.pry
-        # incidents.each {|i| puts "#{i.open_date} - #{i.incidenttype.name}"}
-        display_results(incidents)
-        break
-      else
-        puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
-      end # end if
-    end # end loop
-  end # end method
-
-  def display_borough_names
-    Borough.all.each do |borough|
-      puts "\t#{borough.name}"
-    end
+  def filter_and_display_by(klass)
+    @incidents = filter_by(klass)
+    display_results_with_index(@incidents)
   end
 
-  def filter_by_date_range
-    loop do
-      puts "Please choose a date range between 01/2011 and 06/2017.".colorize(:light_blue)
-
-      to = nil
-
-      puts "\nfrom: mm/yyyy"
-      from = gets.chomp
-      exit_return_menu(from)
-      next if from == "menu"
-      if from == "menu"
-        filter_by_date_range
-      end
-      if check_validity(from)
-        filter_by_date_range
-      end
-
-      loop do
-        puts "\nto: mm/yyyy"
-        to = gets.chomp
-        exit_return_menu(to)
-        next if to == "menu"
-        # byebug
-        if !check_validity(to)
-          break
-        end
-      end
-
-      from_date = Date.new(from.split("/")[1].to_i, from.split("/")[0].to_i, 1)
-      to_date = Date.new(to.split("/")[1].to_i, to.split("/")[0].to_i, -1)
-
-
-      incidents = Incidenttype_Borough.order(:open_date).convert_date_to_days.flatten
-
-      if from_date > to_date
-        puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
-      else
-        incidents.each do |incident|
-          if incident.open_date >= from_date && incident.open_date <= to_date
-            puts "#{incident.open_date} - #{incident.borough.name} - #{incident.incidenttype.name}: #{incident.description}"
-          end
-        end # end each
-        break
-      end # end if
-    end # end loop
+  def filter_and_display_by_date_range
+    @incidents = filter_by_date_range
+    display_results_with_index(@incidents)
   end
 
-  def filter_incidenttype
-    loop do
-      puts "\nWhich type of incident would you like to view?\n".colorize(:light_blue)
-      display_incident_types
+  def filter_and_display_by_borough_and_date
+    @borough = nil
+    @incidents = filter_by(Borough)
+    display_results_with_index(@incidents)
 
-      i = gets.chomp
-      exit_return_menu(i)
-      next if i == "menu"
-
-      i = i.split(" ").map{|w| w.capitalize}.join(" ")
-
-
-      if Incidenttype.find_by_name(i)
-        inc = Incidenttype.find_by_name(i)
-        incidents = Incidenttype_Borough.where(incidenttype: inc).order(:open_date).convert_date_to_days.flatten
-        puts "#{inc}".colorize(:green)
-        incidents.each {|i| puts "#{i.open_date} - #{i.description} - #{i.borough.name}"}
-        break
-      else
-        puts "\nSorry, that's not a valid entry, please select a borough from the listed boroughs.\n".colorize(:red)
+    if @incidents.length > 15
+      ask_yes_no("Do you want to filter your results by date range? (y/n)\n") do |input|
+        @incidents = filter_by_date_range(@borough)
+        display_results_with_index(@incidents)
       end
     end
   end
 
-  def display_incident_types
-    Incidenttype.all.each{|i| puts "\t#{i.name}"}
-  end
-
-  def check_validity(input)
-    if input.split("/")[0].to_i <= 0 || input.split("/")[0].to_i > 12 || input.split("/")[1].to_i <= 0 || input.split("/")[1].to_i < 2011 || input.split("/")[1].to_i > 2017
-      puts "\nThe information you've entered is invalid, please enter a valid date range.\n".colorize(:red)
-      true
-    end
-  end
-
-  def display_by_borough
+  def display_all_by_borough
     puts "\nThese are the incidents recorded by borough:\n".colorize(:light_blue)
     Borough.all.each do |borough|
       puts "\n#{borough.name}".colorize(:yellow)
       Incidenttype.all.each do |type|
         count = Incidenttype_Borough.where(incidenttype: type, borough: borough).count
-        # binding.pry
         puts "\t#{type.name} (#{count})"
       end
     end
   end
 
-  def display_by_type
+  def display_all_by_incidenttype
     puts "\nThese are the incident types recorded and the total number (2011 - present):\n".colorize(:light_blue)
     Incidenttype.all.each do |type|
       count = Incidenttype_Borough.where(incidenttype: type).count
@@ -135,7 +46,7 @@ module Read
     end
   end
 
-  def display_by_year_and_quarter
+  def display_all_by_year_and_quarter
     (2011..2017).to_a.each do |year|
       entries_with_year = Incidenttype_Borough.convert_date_to_years.flatten
       count_per_year = entries_with_year.count { |entry| entry.open_date == year}
@@ -153,11 +64,6 @@ module Read
       puts "\tQ3: #{count_q3} incidents"
       puts "\tQ4: #{count_q4} incidents"
     end
-  end
-
-  def find_borough_by_name(input)
-    input = input.split(" ").map{|char| char.capitalize}.join(" ")
-    Borough.find_by_name(borough)
   end
 
 end
