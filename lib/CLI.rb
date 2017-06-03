@@ -1,14 +1,19 @@
-require_relative 'CLI_read_methods'
-require_relative 'CLI_delete_methods'
-require "pry"
-require 'artii'
-require 'date'
+require_all 'lib'
 
 class CLI
+  attr_accessor :incidents, :borough
 
   include Delete
   include Read
   include Create
+  include Update
+  include Helpers
+  include Filters
+
+  def initialize(incidents = nil, borough = nil)
+    @incidents = incidents
+    @borough = borough
+  end
 
   def start
     a = Artii::Base.new :font => 'slant'
@@ -24,21 +29,21 @@ class CLI
       input = gets.chomp
       case input
       when "1"
-        display_by_borough
+        display_all_by_borough
       when "2"
-        display_by_type
+        display_all_by_incidenttype
       when "3"
-        display_by_year_and_quarter
+        display_all_by_year_and_quarter
       when "4"
-        filter_by_borough
+        filter_and_display_by_borough_and_date
       when "5"
-        filter_by_date_range
+        filter_and_display_by_date_range
       when "6"
-        filter_incidenttype
+        filter_and_display_by(Incidenttype)
       when "7"
-        long_filter
-      when "8"
         create_new_entry
+      when "8"
+        update_entry
       when "9"
         delete_entry
       when "return"
@@ -60,13 +65,12 @@ class CLI
     puts "[1] Display incidents by borough"
     puts "[2] Display by incident type"
     puts "[3] Display by year and quarter"
-    puts "[4] Display for selected borough"
-    puts "[5] Display incidents for a range of dates"
-    puts "[6] Display incidents for a specific type of incident"
-    puts "[7] Filter by borough and date range"
-    puts "[8] Create an entry"
+    puts "[4] Custom filter for borough"
+    puts "[5] Custom filter for date range"
+    puts "[6] Custom filter for incident type"
+    puts "[7] Create a new entry"
+    puts "[8] Update an entry"
     puts "[9] Delete an entry"
-
     puts ""
     puts "Type 'return' anytime to return to the main menu"
     puts "Type 'menu' anytime to display the menu options"
