@@ -1,5 +1,3 @@
-require 'date'
-
 module Create
 
   def create_new_entry

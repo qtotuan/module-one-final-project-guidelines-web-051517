@@ -12,14 +12,12 @@ module Filters
       exit_return_menu(input)
       next if input == "menu"
 
-      # byebug
       result = klass.find_by_name(parse(input))
       @borough = result if klass == Borough
 
 
       if result
-        return @incidents = Incidenttype_Borough.where(borough: result) if klass == Borough
-        return @incidents = Incidenttype_Borough.where(incidenttype: result) if klass == Incidenttype
+        return @incidents = Incidenttype_Borough.where(klass.to_s.downcase.to_sym => result)
       else
         puts "\nSorry, that's not a valid entry, please select from the list.\n".colorize(:red)
       end
@@ -44,8 +42,6 @@ module Filters
       end
 
       incidents_with_date = Incidenttype_Borough.convert_date_to_days.flatten
-
-      # byebug
 
       incidents_with_date.each do |incident|
         if @borough.nil?

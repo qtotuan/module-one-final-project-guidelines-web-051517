@@ -1,7 +1,3 @@
-require_relative 'CLI'
-require_relative 'CLI_delete_methods'
-require "pry"
-
 module Read
 
   def filter_and_display_by(klass)

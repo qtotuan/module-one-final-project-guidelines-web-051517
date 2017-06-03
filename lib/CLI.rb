@@ -1,8 +1,4 @@
-require_relative 'CLI_read_methods'
-require_relative 'CLI_delete_methods'
-# require "pry"
-# require 'artii'
-# require 'date'
+require_all 'lib'
 
 class CLI
   attr_accessor :incidents, :borough
@@ -49,7 +45,7 @@ class CLI
       when "8"
         update_entry
       when "9"
-        delete_entry        
+        delete_entry
       when "return"
         run_main_menu
       when "menu"

@@ -74,7 +74,6 @@ module Helpers
         return result
       else
         puts "\nSorry, that's not a valid entry, please select from the list.\n".colorize(:red)
-        # byebug
         if attribute == "incidenttype"
           Incidenttype.list_names
         elsif attribute == "borough"

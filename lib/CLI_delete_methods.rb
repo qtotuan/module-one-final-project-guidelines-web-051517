@@ -1,7 +1,3 @@
-require_relative 'CLI_read_methods'
-require_relative 'CLI'
-require "pry"
-
 module Delete
 
   def delete_entry
@@ -13,4 +9,4 @@ module Delete
     end
   end
 
-end 
+end
